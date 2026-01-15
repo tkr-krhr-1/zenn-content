@@ -12,7 +12,7 @@ Google Antigravity、使っていますか？ 最近、新機能として **Skil
 
 これまでもカスタム指示（Customizations/Rules）でエージェントの挙動を調整できましたが、Skills はどうやら「もっと高度なタスク」を「必要な時だけ」実行させるための機能のようです。
 
-「これは開発フローが変わるかもしれない...」と思い、実際に試してみました。 今回は、実用的な**「自動コードレビュースキル」**の作成を通して、その使い勝手と Customizations との違いを解説します。
+「これは開発フローが変わるかもしれない...」と思い、実際に試してみました。 今回は、実用的な**自動コードレビュースキル**の作成を通して、その使い勝手と Customizations との違いを解説します。
 
 ![alt text](/images/antigravity-skills/image-1.png)
 
@@ -256,15 +256,17 @@ for item in items:
 
 エージェントは即座に意図を理解し、思考プロセス（Thought）の中で `code-reviewer` スキルを起動しました。 注目すべきは、自ら `simple_linter.py` を実行して機械的なチェックを行っている点です。
 
-![alt text](/images/antigravity-skills/image-2.png)
+![alt text](/images/antigravity-skills/image-1.png)
 
 ### 2. 生成されたレビュー結果
 
 スクリプトの実行結果と、`review_checklist.md` の観点を組み合わせ、期待通りの回答が生成されました。
 
+![alt text](/images/antigravity-skills/image-2.png)
 ![alt text](/images/antigravity-skills/image-3.png)
 ![alt text](/images/antigravity-skills/image-4.png)
-![alt text](/images/antigravity-skills/image-5.png)
+
+
 
 ## 💡 他に使えそうなアイデア
 
