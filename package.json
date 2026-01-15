@@ -8,8 +8,16 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "* [📘 How to use](https://zenn.dev/zenn/articles/zenn-cli-guide)",
   "dependencies": {
-    "zenn-cli": "^0.2.3"
-  }
+    "zenn-cli": "^0.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tkr-krhr-1/zenn-content.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tkr-krhr-1/zenn-content/issues"
+  },
+  "homepage": "https://github.com/tkr-krhr-1/zenn-content#readme"
 }
