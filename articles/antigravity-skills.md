@@ -18,7 +18,7 @@ Google Antigravity、使っていますか？ 最近、新機能として **Skil
 
 ## 📚 概要: Skills（スキル）とは？
 
-Skills は、**エージェントに特定のタスクの進め方やベストプラクティスを教えるための「再利用可能なパッケージ」**です。
+Skills は、エージェントに特定のタスクの進め方やベストプラクティスを教えるための**再利用可能なパッケージ**です。
 
 単なるプロンプトテンプレートではありません。以下の 4 つの要素を組み合わせることで、複雑な作業を自律的に行わせることができます。
 
@@ -36,7 +36,7 @@ Customizations で長大な指示を書くのではなく、Skills として切�
 #### 1. コンテキストの節約と「集中力」の維持
 
 Customizations にすべての業務マニュアルを詰め込むと、常に大量のトークンを消費するだけでなく、エージェントが指示の優先順位を見失う（ハルシネーションを起こす）原因になります。
-Skills は**必要な時だけ読み込まれる（Dynamic Loading）**ため、エージェントは目の前のタスクに集中でき、回答の精度が向上します。
+Skills は**必要な時だけ読み込まれる**（Dynamic Loading）ため、エージェントは目の前のタスクに集中でき、回答の精度が向上します。
 
 #### 2. 「確率」と「ロジック」のいいとこ取り
 
@@ -256,15 +256,15 @@ for item in items:
 
 エージェントは即座に意図を理解し、思考プロセス（Thought）の中で `code-reviewer` スキルを起動しました。 注目すべきは、自ら `simple_linter.py` を実行して機械的なチェックを行っている点です。
 
-![alt text](/images/antigravity-skills/image-1.png)
+![alt text](/images/antigravity-skills/image-2.png)
 
 ### 2. 生成されたレビュー結果
 
 スクリプトの実行結果と、`review_checklist.md` の観点を組み合わせ、期待通りの回答が生成されました。
 
-![alt text](/images/antigravity-skills/image-2.png)
 ![alt text](/images/antigravity-skills/image-3.png)
 ![alt text](/images/antigravity-skills/image-4.png)
+![alt text](/images/antigravity-skills/image-5.png)
 
 
 
