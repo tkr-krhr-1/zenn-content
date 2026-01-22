@@ -1,5 +1,5 @@
 ---
-title: "【Google Antigravity】「Skills」機能を試してみた"
+title: "【Google Antigravity】新機能「Skills」で自律型コードレビュアーを作ってみた"
 emoji: "🐡"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["googleantigravity", "ai", "agent"]
