@@ -256,13 +256,13 @@ for item in items:
 
 ### 1. スキルの自動発動とスクリプト実行
 
-エージェントは即座に意図を理解し、思考プロセス（Thought）の中で `code-reviewer` スキルを起動しました。 注目すべきは、自ら `simple_linter.py` を実行して機械的なチェックを行っている点です。
+エージェントは即座に意図を理解し、思考プロセス（Thought）の中で `code-reviewer` スキルを起動しました。
 
 ![alt text](/images/antigravity-skills/image-2.png)
 
 ### 2. 生成されたレビュー結果
 
-スクリプトの実行結果と、`review_checklist.md` の観点を組み合わせ、期待通りの回答が生成されました。
+スクリプトの実行結果と、`review_checklist.md` の観点を組み合わせ、`review_style.md`に沿った回答が生成されました。
 
 ![alt text](/images/antigravity-skills/image-3.png)
 ![alt text](/images/antigravity-skills/image-4.png)
