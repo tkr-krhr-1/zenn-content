@@ -122,8 +122,7 @@ cd my-app
 
 **プロンプト:**
 
-> 「#SKILL.md localStorageをDB代わりにした、App Router構成のマルチページCRUDノートアプリを、モダンなデザインで一括作成したい。」
-（.agent/skills/requirement/SKILL.md）
+> 「#SKILL.md localStorageをDB代わりにした、App Router構成のマルチページCRUDノートアプリを、モダンなデザインで一括作成したい。」（.agent/skills/requirement/SKILL.md）
 
 「#SKILL.md」は必ず使用するために指定しています。ドラッグアンドロップでチャットに追加できます。
 
