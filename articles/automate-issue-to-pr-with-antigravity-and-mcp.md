@@ -18,12 +18,15 @@ published: false
 
 GitHub MCPを導入したAntigravityを使えば、以下のようなやり取りだけで開発が完結します。
 
-> **私**: 「この仕様書（requirements.md）に基づいて、Issueを切り分けて実装、PRの作成までやっておいて。」
-> **エージェント**: 「承知しました。Issueを3つ作成し、それぞれブランチを作成して実装を行い、PRを作成しました。」
-
-これが、今回実現するゴールです。
-
-![自動化フローのイメージ](/images/automate-issue-to-pr/flow.png)
+```mermaid
+flowchart TD
+    S1[Step 1: 要件定義の作成] --> S2[Step 2: Issueの起票]
+    S2 --> S3[Step 3: 実装計画の作成<br/>Planning Mode]
+    S3 --> S4[Step 4: 実装 & コミット & Issueクローズ]
+    S4 -->|未完了のIssueあり| S3
+    S4 -->|全タスク完了| S5[Step 5: PRの作成]
+    S5 --> End[人間によるレビュー & マージ]
+```
 
 ## 準備：環境を整える
 
@@ -59,6 +62,7 @@ npx -y @modelcontextprotocol/server-github
 **プロンプト:**
 
 > 「#SKILL.md localStorageをDB代わりにした、App Router構成のマルチページCRUDノートアプリを、モダンなデザインで一括作成したい。」
+> （#SKILL.md を必ず使用するために指定しています。ドラッグアンドロップでチャットに追加できます。）
 
 エージェントが要件を整理し、`requirements.md`として出力してくれます。
 
@@ -70,7 +74,7 @@ npx -y @modelcontextprotocol/server-github
 
 **プロンプト:**
 
-> 「#SKILL.md `requirements.md`の内容を元に、実装に必要なIssueを起票してください。」
+「#SKILL.md」（）
 
 GitHub MCPが動作し、自動的にリポジトリにIssueが作成されます。
 
@@ -83,8 +87,7 @@ GitHub MCPが動作し、自動的にリポジトリにIssueが作成されま�
 
 **プロンプト:**
 
-> 「#SKILL.md #1 ログイン画面の実装計画を立ててください。」
-> _(※ #1 は対象のIssue番号)_
+> 「#SKILL.md #1」(※ #1 は対象のIssue番号)\_
 
 エージェントがコードベースを分析し、どのファイルをどう変更するかの計画（Plan）を提示します。
 
@@ -98,7 +101,7 @@ GitHub MCPが動作し、自動的にリポジトリにIssueが作成されま�
 
 **プロンプト:**
 
-> 「#SKILL.md 実装内容をコミットし、Issue #1 をクローズしてください。」
+> 「#SKILL.md」（）
 
 ![コミットのスクリーンショット]()
 
@@ -113,7 +116,7 @@ _Issueも自動的にクローズされます_
 
 **プロンプト:**
 
-> 「#SKILL.md mainブランチに向けてPull Requestを作成してください。タイトルと概要は実装内容に基づいて自動生成してください。」
+> 「#SKILL.md」（）
 
 ![PR作成のスクリーンショット]()
 
