@@ -37,11 +37,26 @@ flowchart TD
 この自動化フローの核となる「Skill」ファイル（エージェントへの指示書）を準備します。
 以下のリポジトリクローンし、プロジェクトのルートディレクトリに.agent以下をコピーしてください。
 
-https://github.com/tkr-krhr-1/antigravity-skills
+https://github.com/tkr-krhr-1/antigravity_skills_implementation_template
 
 ### 2. GitHub個人アクセストークン（PAT）の発行
 
-AntigravityからGitHubを操作するために、`repo` スコープを持つPATを発行しておきます。
+AntigravityからGitHubを操作（Issue起票やPR作成）するために、GitHubの権限を持ったトークンが必要です。
+
+1. GitHubの **[Settings](https://github.com/settings/profile)** ページにアクセスします。
+2. 左サイドバーの一番下にある **[Developer settings]** をクリックします。
+3. **[Personal access tokens]** > **[Tokens (classic)]** を選択します。
+   （※ Fine-grained tokensも利用可能ですが、設定が容易なClassicを今回は使用します）
+4. **[Generate new token (classic)]** をクリックします。
+5. **Note** に用途（例: `Antigravity MCP`）を入力し、**Expiration**（有効期限）を設定します。
+6. **Select scopes** で、以下の権限にチェックを入れます。
+   - `repo` （リポジトリの操作：**必須**）
+   - `user` （ユーザー情報の取得：推奨）
+7. **[Generate token]** をクリックし、表示されたトークン（`ghp_`から始まる文字列）をコピーして控えておきます。
+
+:::message alert
+トークンはこの画面で一度しか表示されません。必ずパスワード管理ツールなどに保存してください。
+:::
 
 ### 3. GitHub MCPのインストール
 
