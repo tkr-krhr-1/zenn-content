@@ -107,9 +107,11 @@ cd my-app
 > 「#SKILL.md localStorageをDB代わりにした、App Router構成のマルチページCRUDノートアプリを、モダンなデザインで一括作成したい。」
 > （#SKILL.md を必ず使用するために指定しています。ドラッグアンドロップでチャットに追加できます。）
 
+![SKILLファイルのドラッグ&ドロップ](/images/automate-issue-to-pr/drag&drop.png)
+
 エージェントが要件を整理し、`requirements.md`として出力してくれます。
 
-![要件定義書のスクリーンショット]()
+![要件定義書のスクリーンショット](/images/automate-issue-to-pr/Screenshot_Requirements.png)
 
 ### ステップ2：Issueの起票
 
@@ -121,7 +123,7 @@ cd my-app
 
 GitHub MCPが動作し、自動的にリポジトリにIssueが作成されます。
 
-![Issue起票のスクリーンショット]()
+![Issue起票のスクリーンショット](/images/automate-issue-to-pr/Screenshot_Issue_Registration.png)
 
 ### ステップ3：実装計画の作成
 
@@ -130,11 +132,11 @@ GitHub MCPが動作し、自動的にリポジトリにIssueが作成されま�
 
 **プロンプト:**
 
-> 「#SKILL.md #1」(※ #1 は対象のIssue番号)\_
+> 「#SKILL.md #69」(※ #1 は対象のIssue番号)
 
 エージェントがコードベースを分析し、どのファイルをどう変更するかの計画（Plan）を提示します。
 
-![実装計画のスクリーンショット]()
+![実装計画のスクリーンショット](/images/automate-issue-to-pr/Screenshot_Implementation_Plan.png)
 
 提示された計画を確認し、必要であればコメントで修正を指示します。問題なければ **Proceed** を押して実行させます。
 
@@ -146,9 +148,7 @@ GitHub MCPが動作し、自動的にリポジトリにIssueが作成されま�
 
 > 「#SKILL.md」（）
 
-![コミットのスクリーンショット]()
-
-![クローズされたIssueのスクリーンショット]()
+![コミットのスクリーンショット](/images/automate-issue-to-pr/Screenshot_Commit.png)
 _Issueも自動的にクローズされます_
 
 この「計画 → 実装 → コミット」の流れを、残りのサブタスク（Issue）が完了するまで繰り返します。
@@ -161,9 +161,10 @@ _Issueも自動的にクローズされます_
 
 > 「#SKILL.md」（）
 
-![PR作成のスクリーンショット]()
+![PR作成のスクリーンショット](/images/automate-issue-to-pr/Screenshot_PR.png)
 
-これで、変更状況が一目でわかるPRが作成されました。あとは人間がコードレビューを行い、マージするだけです。
+これで、変更状況が一目でわかるPRが作成されました。
+あとは人間がコードレビューを行い、マージするだけです。
 
 ## 最後に
 
