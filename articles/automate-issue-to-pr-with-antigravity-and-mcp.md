@@ -84,7 +84,25 @@ Antigravityの設定ファイル（標準では `~/.antigravity/mcp_config.json`
 可能な限り、IDEのシークレット管理機能や環境変数参照機能を使用することを推奨します。
 :::
 
-### 4. Next.jsのプロジェクトを構築
+### 4. GitHub CLIのインストール
+
+スキル内で `gh` コマンドを使用するため、GitHub CLIをインストール・認証しておきます。
+
+```bash
+# macOS
+brew install gh
+
+# Windows
+winget install --id GitHub.cli
+```
+
+インストール後、以下のコマンドでログインします（ブラウザ認証が立ち上がります）。
+
+```bash
+gh auth login
+```
+
+### 5. Next.jsのプロジェクトを構築
 
 今回は土台としてNext.jsのApp Router環境を使用します。以下のコマンドで空のプロジェクトを作成してください。
 
@@ -128,7 +146,9 @@ GitHub MCPが動作し、自動的にリポジトリにIssueが作成されま�
 ### ステップ3：実装計画の作成
 
 ここからは、作成されたIssueを一つずつ消化していきます。
+:::message alert
 **重要**: 複雑な実装を行うため、Antigravityのモードを**Planning Mode**に切り替えてください。
+:::
 
 **プロンプト:**
 
