@@ -122,8 +122,10 @@ cd my-app
 
 **プロンプト:**
 
-> 「#SKILL.md localStorageをDB代わりにした、App Router構成のマルチページCRUDノートアプリを、モダンなデザインで一括作成したい。」（.agent/skills/requirement/SKILL.md）
-> （#SKILL.md を必ず使用するために指定しています。ドラッグアンドロップでチャットに追加できます。）
+> 「#SKILL.md localStorageをDB代わりにした、App Router構成のマルチページCRUDノートアプリを、モダンなデザインで一括作成したい。」
+（.agent/skills/requirement/SKILL.md）
+
+「#SKILL.md」は必ず使用するために指定しています。ドラッグアンドロップでチャットに追加できます。
 
 ![SKILLファイルのドラッグ&ドロップ](/images/automate-issue-to-pr/drag&drop.png)
 
@@ -137,7 +139,7 @@ cd my-app
 
 **プロンプト:**
 
-「#SKILL.md」（.agent/skills/issue/SKILL.md）
+> 「#SKILL.md」（.agent/skills/issue/SKILL.md）
 
 GitHub MCPが動作し、自動的にリポジトリにIssueが作成されます。
 
