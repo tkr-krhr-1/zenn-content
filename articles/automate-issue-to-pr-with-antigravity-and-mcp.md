@@ -22,10 +22,10 @@ GitHub MCPを導入したAntigravityを使えば、以下のようなやり取�
 flowchart TD
     S1[Step 1: 要件定義の作成] --> S2[Step 2: Issueの起票]
     S2 --> S3[Step 3: 実装計画の作成<br/>Planning Mode]
-    S3 --> S4[Step 4: 実装 & コミット & Issueクローズ]
+    S3 --> S4[Step 4: 実装 → コミット → Issueクローズ]
     S4 -->|未完了のIssueあり| S3
     S4 -->|全タスク完了| S5[Step 5: PRの作成]
-    S5 --> End[人間によるレビュー & マージ]
+    S5 --> End[人間によるレビュー → マージ]
 ```
 
 ## 準備：環境を整える
