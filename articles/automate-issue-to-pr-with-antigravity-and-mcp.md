@@ -122,7 +122,7 @@ cd my-app
 
 **プロンプト:**
 
-> 「#SKILL.md localStorageをDB代わりにした、App Router構成のマルチページCRUDノートアプリを、モダンなデザインで一括作成したい。」
+> 「#SKILL.md localStorageをDB代わりにした、App Router構成のマルチページCRUDノートアプリを、モダンなデザインで一括作成したい。」（.agent/skills/requirement/SKILL.md）
 > （#SKILL.md を必ず使用するために指定しています。ドラッグアンドロップでチャットに追加できます。）
 
 ![SKILLファイルのドラッグ&ドロップ](/images/automate-issue-to-pr/drag&drop.png)
@@ -137,7 +137,7 @@ cd my-app
 
 **プロンプト:**
 
-「#SKILL.md」（）
+「#SKILL.md」（.agent/skills/issue/SKILL.md）
 
 GitHub MCPが動作し、自動的にリポジトリにIssueが作成されます。
 
@@ -152,7 +152,7 @@ GitHub MCPが動作し、自動的にリポジトリにIssueが作成されま�
 
 **プロンプト:**
 
-> 「#SKILL.md #69」(※ #1 は対象のIssue番号)
+> 「#SKILL.md #69」(.agentskills/implementation/SKILL.md)
 
 エージェントがコードベースを分析し、どのファイルをどう変更するかの計画（Plan）を提示します。
 
@@ -166,7 +166,7 @@ GitHub MCPが動作し、自動的にリポジトリにIssueが作成されま�
 
 **プロンプト:**
 
-> 「#SKILL.md」（）
+> 「#SKILL.md」（.agent/skills/commit/SKILL.md）
 
 ![コミットのスクリーンショット](/images/automate-issue-to-pr/Screenshot_Commit.png)
 _Issueも自動的にクローズされます_
@@ -179,7 +179,7 @@ _Issueも自動的にクローズされます_
 
 **プロンプト:**
 
-> 「#SKILL.md」（）
+> 「#SKILL.md」（.agent/skills/pr/SKILL.md）
 
 ![PR作成のスクリーンショット](/images/automate-issue-to-pr/Screenshot_PR.png)
 
