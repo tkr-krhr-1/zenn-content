@@ -18,15 +18,6 @@ published: false
 
 GitHub MCPを導入したAntigravityを使えば、以下のようなやり取りだけで開発が完結します。
 
-具体的には、今回は**「localStorageをDB代わりにした、App Router構成のマルチページCRUDノートアプリ」**を題材に、以下のフローで開発を進めます。
-
-1.  **要件定義**: 作り込みたいアプリの仕様をエージェントと相談してドキュメント化
-2.  **Issue起票**: 要件定義書から、実装タスクを細分化してGitHub Issueを一括作成
-3.  **実装＆コミット**: Issue単位でエージェントが計画・実装・コミット・クローズまで実行
-4.  **PR作成**: すべてのタスクが完了したら、変更をまとめたPull Requestを自動生成
-
-このサイクルを回すことで、人間は「指示」と「レビュー」に徹することができます。
-
 ```mermaid
 flowchart TD
     S1[Step 1: 要件定義の作成] --> S2[Step 2: Issueの起票]
@@ -61,11 +52,21 @@ npx -y @modelcontextprotocol/server-github
 
 ### 3. Next.jsのプロジェクトを構築
 
-空プロジェクトを作成するコマンド
+今回は土台としてNext.jsのApp Router環境を使用します。以下のコマンドで空のプロジェクトを作成してください。
+
+```bash
+npx create-next-app@latest my-app --typescript --tailwind --eslint
+cd my-app
+```
 
 ### 4. SKILLをルートディレクトリに配置
 
-GithubリポジトリのURL
+この自動化フローの核となる「Skill」ファイル（エージェントへの指示書）を準備します。
+以下のリポジトリから `SKILL.md` をダウンロードし、プロジェクトの `.agent/skills/` ディレクトリに配置してください。
+
+https://github.com/tkr-krhr-1/antigravity-skills
+
+（※ ディレクトリがない場合は作成してください: `mkdir -p .agent/skills`）
 
 ## 実践
 
