@@ -45,16 +45,28 @@ AntigravityからGitHubを操作するために、`repo` スコープを持つPA
 
 ### 3. GitHub MCPのインストール
 
-Antigravityの設定（または `.agent/config` 等）で、GitHub MCPを追加します。
-通常、以下のようなコマンドで動作します。
+Antigravityの設定ファイル（標準では `~/.antigravity/mcp_config.json` など）を開き、GitHub MCPサーバーを登録します。
 
-```bash
-npx -y @modelcontextprotocol/server-github
+以下のように `mcpServers` オブジェクト内に設定を追加してください。`env` ブロックで先ほど発行したトークンを指定します。
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "ここに発行したPATを貼り付け"
+      }
+    }
+  }
+}
 ```
 
-:::message
-**セキュリティの注意点**
-トークンなどの機密情報は、直接コードに埋め込まず、環境変数やセキュアな設定ファイルで管理するようにしましょう。
+:::message alert
+**セキュリティの注意**
+設定ファイルに直接トークンを書き込む際は、このファイルを誤ってGitにコミットしないよう十分注意してください。
+可能な限り、IDEのシークレット管理機能や環境変数参照機能を使用することを推奨します。
 :::
 
 ### 4. Next.jsのプロジェクトを構築
