@@ -30,13 +30,20 @@ flowchart TD
 
 ## 準備：環境を整える
 
-まずは、AntigravityでGitHubを操作できるようにするために、**Github MCP (Model Context Protocol)** サーバーをセットアップします。
+まずは自動化に必要なスキルと環境をセットアップします。
 
-### 1. GitHub個人アクセストークン（PAT）の発行
+### 1. SKILLをルートディレクトリに配置
 
-GitHubの設定から、`repo` スコープを持つPATを発行しておきます。
+この自動化フローの核となる「Skill」ファイル（エージェントへの指示書）を準備します。
+以下のリポジトリクローンし、プロジェクトのルートディレクトリに.agent以下をコピーしてください。
 
-### 2. GitHub MCPのインストール
+https://github.com/tkr-krhr-1/antigravity-skills
+
+### 2. GitHub個人アクセストークン（PAT）の発行
+
+AntigravityからGitHubを操作するために、`repo` スコープを持つPATを発行しておきます。
+
+### 3. GitHub MCPのインストール
 
 Antigravityの設定（または `.agent/config` 等）で、GitHub MCPを追加します。
 通常、以下のようなコマンドで動作します。
@@ -50,7 +57,7 @@ npx -y @modelcontextprotocol/server-github
 トークンなどの機密情報は、直接コードに埋め込まず、環境変数やセキュアな設定ファイルで管理するようにしましょう。
 :::
 
-### 3. Next.jsのプロジェクトを構築
+### 4. Next.jsのプロジェクトを構築
 
 今回は土台としてNext.jsのApp Router環境を使用します。以下のコマンドで空のプロジェクトを作成してください。
 
@@ -58,15 +65,6 @@ npx -y @modelcontextprotocol/server-github
 npx create-next-app@latest my-app --typescript --tailwind --eslint
 cd my-app
 ```
-
-### 4. SKILLをルートディレクトリに配置
-
-この自動化フローの核となる「Skill」ファイル（エージェントへの指示書）を準備します。
-以下のリポジトリから `SKILL.md` をダウンロードし、プロジェクトの `.agent/skills/` ディレクトリに配置してください。
-
-https://github.com/tkr-krhr-1/antigravity-skills
-
-（※ ディレクトリがない場合は作成してください: `mkdir -p .agent/skills`）
 
 ## 実践
 
