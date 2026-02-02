@@ -24,7 +24,7 @@ flowchart TD
     S2 --> S3[Step 3: 実装計画の作成<br/>Planning Mode]
     S3 --> S4[Step 4: 実装 → コミット → Issueクローズ]
     S4 -->|未完了のIssueあり| S3
-    S4 -->|全タスク完了| S5[Step 5: PRの作成]
+    S4 -->|全タスク完了| S5[Step 5: PRの作成 → 自動レビュー]
     S5 --> End[人間によるレビュー → マージ]
 ```
 
@@ -174,7 +174,7 @@ _Issueも自動的にクローズされます_
 
 この「計画 → 実装 → コミット」の流れを、残りのサブタスク（Issue）が完了するまで繰り返します。
 
-### ステップ5：PRの作成
+### ステップ5：PRの作成と自動レビュー
 
 全ての機能実装が完了したら、最後にPull Requestを作成します。
 
@@ -183,6 +183,8 @@ _Issueも自動的にクローズされます_
 > 「#SKILL.md」（.agent/skills/pr/SKILL.md）
 
 ![PR作成のスクリーンショット](/images/automate-issue-to-pr/Screenshot_PR.png)
+
+![PRレビューのスクリーンショット](/images/automate-issue-to-pr/Screenshot_PR_Review.png)
 
 これで、変更状況が一目でわかるPRが作成されました。
 あとは人間がコードレビューを行い、マージするだけです。
