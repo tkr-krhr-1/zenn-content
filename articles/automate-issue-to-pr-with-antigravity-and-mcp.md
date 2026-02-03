@@ -148,7 +148,7 @@ GitHub MCPが動作し、自動的にリポジトリにIssueが作成されま�
 
 ここからは、作成されたIssueを一つずつ消化していきます。
 
-#### **重要**　　Implementation Planを作成したいので、Conversation modeを**Planning**に切り替えてください。
+#### はじめに、Implementation Planを作成したいので、Conversation modeを**Planning**に切り替えてください。
 
 **プロンプト:**
 
@@ -181,12 +181,12 @@ _Issueも自動的にクローズされます_
 
 > 「#SKILL.md」（.agent/skills/pr/SKILL.md）
 
-![PR作成のスクリーンショット](/images/automate-issue-to-pr/Screenshot_PR.png)
+![PR作成のスクリーンショット](/images/automate-issue-to-pr/Screenshot_PR.png)*PRの作成*
 
-![PRレビューのスクリーンショット](/images/automate-issue-to-pr/Screenshot_PR_Review.png)
+![PRレビューのスクリーンショット](/images/automate-issue-to-pr/Screenshot_PR_Review.png)*PRに対してレビューコメントを記載する*
 
 これで、変更状況が一目でわかるPRが作成されました。
-あとは人間がコードレビューを行い、マージするだけです。
+あとは人間の目で確認し、マージするだけです。
 
 ### 成果物
 
