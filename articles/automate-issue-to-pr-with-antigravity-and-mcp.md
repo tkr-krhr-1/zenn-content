@@ -147,13 +147,12 @@ GitHub MCPが動作し、自動的にリポジトリにIssueが作成されま�
 ### ステップ3：実装計画の作成
 
 ここからは、作成されたIssueを一つずつ消化していきます。
-:::message alert
-**重要**: 複雑な実装を行うため、Antigravityのモードを**Planning Mode**に切り替えてください。
-:::
+
+#### **重要**　　Implementation Planを作成したいので、Conversation modeを**Planning**に切り替えてください。
 
 **プロンプト:**
 
-> 「#SKILL.md #69」(.agentskills/implementation/SKILL.md)
+> 「#SKILL.md Issue #69 の内容を解析して、実装計画を立ててください。」(.agentskills/implementation/SKILL.md)
 
 エージェントがコードベースを分析し、どのファイルをどう変更するかの計画（Plan）を提示します。
 
