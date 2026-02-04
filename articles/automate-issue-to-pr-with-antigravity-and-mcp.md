@@ -1,5 +1,5 @@
 ---
-title: "【Google Antigravity】Skills機能でIssue起票からPR作成までの各工程を自動化する"
+title: "【Google Antigravity】【Github】開発サイクルを自動化する"
 emoji: "🤖"
 type: "tech"
 topics: ["antigravity", "github", "mcp", "automation"]
