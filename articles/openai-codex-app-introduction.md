@@ -31,7 +31,7 @@ OpenAIは既に **ChatGPT (Codex)** や **Codex CLI** を提供しています�
 - **ChatGPT App (Web/Mobile) との違い**:
   Webやアプリ版は「対話」が主体です。手軽に質問できる反面、ローカルのプロジェクト構造を維持したまま複雑な編集を行ったり、ファイルシステム全体を俯瞰して整合性を保つことには限界がありました。
   :::message
-  ChatGPT AppでCodexを使用するには、Plusプラン以上の契約が必要です。
+  iOS/AndroidのChatGPTアプリでCodexを使用するには、Plusプラン以上の契約が必要です。
   :::
 
 - **Codex CLI との違い**:
