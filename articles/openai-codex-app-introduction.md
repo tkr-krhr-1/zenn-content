@@ -1,5 +1,5 @@
 ---
-title: "🚀 【OpenAI Codex App】Scheduled Automationsで実現する「完全自動リファクタリング・テスト」"
+title: "🚀【Codex】リファクタリングからテスト生成まで完全自動化する方法"
 emoji: "🚀"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["Codex", "OpenAI", "AI"]
