@@ -6,7 +6,7 @@ topics: ["ai", "agent", "llm", "chatgpt", "claude"]
 published: false
 ---
 
-最終更新日：2026-03-04
+最終更新日：2026-02-27
 
 :::message
 **本日のアップデート情報**
