@@ -12,6 +12,8 @@ published: false
 
 画像認識技術に興味があるけれど、「どこから手をつけていいか分からない」「YOLOって名前は聞くけど、何がすごいの？」という方の疑問を解消する内容になっています。
 
+![YOLOの概念イメージ](/images/yolo-object-detection-intro/hero.png)
+
 ## 概要
 
 ### YOLOの立ち位置と他のモデルとの違い
