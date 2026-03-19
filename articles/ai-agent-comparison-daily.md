@@ -1,5 +1,5 @@
 ---
-title: "【毎日更新】Gemini, ChatGPT, Claude 比較まとめ：料金・特徴・ユースケース一覧"
+title: "【毎日更新】Gemini | ChatGPT | Claude 比較まとめ：料金・特徴・ユースケース一覧"
 emoji: "🤖"
 type: "tech"
 topics: ["ai", "agent", "llm", "chatgpt", "claude"]
