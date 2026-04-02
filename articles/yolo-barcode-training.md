@@ -127,7 +127,7 @@ for r in results:
 
 実行すると以下のような結果が出ます。
 
-![alt text](/images/yolo-barcode-training/yolo-detection-result.png)
+<!-- ![alt text](/images/yolo-barcode-training/yolo-detection-result.png) -->
 
 学習回数が一回なので、精度は甘いですが、回数を重ねれば、より高精度なモデルを構築できます。
 
