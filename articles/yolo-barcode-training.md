@@ -53,8 +53,8 @@ Download dataset > Show download codeでContinueを押すと以下の画面が�
 
 ![Google Colabでのデータセットダウンロード](/images/yolo-barcode-training/google-colab-dataset-download.png)
 
-
 これでデータセットの準備が完了しました。
+
 
 ## 3. 実践：トレーニングの実行
 
