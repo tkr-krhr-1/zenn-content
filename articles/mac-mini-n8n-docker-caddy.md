@@ -225,15 +225,14 @@ docker compose up -d
 コンテナが正常に起動しているか確認します。
 
 ```bash
-docker ps
+docker compose ps
 ```
-![docker psコンテナの起動確認](/images/mac-mini-n8n-docker-caddy/docker-ps.png =1000x)
+![docker compose psコンテナの起動確認](/images/mac-mini-n8n-docker-caddy/docker-ps.png =1000x)
 
 もし起動につまずいた場合やエラーが発生した場合は、以下のログ確認コマンドを使用して原因を調査します。
 
 ```bash
-docker logs caddy_proxy
-docker logs n8n_app
+docker compose logs
 ```
 
 ## 4. 検証

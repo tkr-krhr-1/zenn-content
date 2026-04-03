@@ -51,7 +51,7 @@ Download dataset > Show download codeでContinueを押すと以下の画面が�
 
 コピーをして、Google Colabのセルで実行します。
 
-![Google Colabでのデータセットダウンロード](/images/yolo-barcode-training/google-colab-dataset-download.png)
+![Google Colabでのデータセットダウンロード](/images/yolo-barcode-training/image.png)
 
 これでデータセットの準備が完了しました。
 
@@ -125,9 +125,10 @@ for r in results:
             print(f"【認識中】バーコードを発見しました！ 信頼度: {conf:.2f}")
 ```
 
-実行すると以下のような結果が出ます。
+実行するとカメラウィンドウが開き、バーコードを認識します。
+※信頼度を0に設定しているため、テーブルもバーコードと検知されています。
 
-<!-- ![alt text](/images/yolo-barcode-training/yolo-detection-result.png) -->
+![alt text](/images/yolo-barcode-training/yolo-detection-result.png)
 
 学習回数が一回なので、精度は甘いですが、回数を重ねれば、より高精度なモデルを構築できます。
 
