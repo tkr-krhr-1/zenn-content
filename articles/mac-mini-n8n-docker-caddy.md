@@ -1,12 +1,12 @@
 ---
-title: "Mac miniでn8nを24時間稼働させる環境の構築手順: DockerとCaddyによるローカルHTTPS化"
+title: "【Mac mini】n8nをDocker+Caddyで常時稼働（HTTPS対応）"
 emoji: "⚙️"
 type: "tech"
 topics: ["n8n", "Docker", "Caddy", "Macmini"]
 published: false
 ---
 
-※この記事はAIによって自動生成され、その後人間が編集・校正を行っています。
+※本記事は、読者の方にとって分かりやすい構成となるようAIのサポート活用し、私自身の経験と裏取りを元に書き下ろしたものです。
 
 ## 1. はじめに
 
