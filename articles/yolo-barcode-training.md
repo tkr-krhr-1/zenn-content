@@ -1,16 +1,18 @@
 ---
-title: "「YOLOでバーコード検知」カスタムデータでモデルをトレーニングする方法"
+title: "YOLOv8 × Roboflow × Colab：バーコード検知モデルを構築する"
 emoji: "🎯"
 type: "tech"
 topics: ["yolo", "ultralytics", "python", "物体検出", "機械学習"]
 published: false
 ---
 
+※本記事は、読者の方にとって分かりやすい構成となるようAIのサポート活用し、私自身の経験と裏取りを元に書き下ろしたものです。
+
 ## はじめに
 
 前回の[入門編](https://zenn.dev/tkr_krhr/articles/yolo-object-detection-intro)では、YOLOの概要と学習済みモデルを使った推論方法について解説しました。
 
-今回の記事では、**Google Colab** と **Roboflow** を活用して、**独自のバーコードデータセットでモデルをトレーニングする**具体的な手順を解説します。
+今回の記事では、**Google Colab** と **Roboflow** を活用して、**バーコードデータセットでモデルをトレーニングする**具体的な手順を解説します。
 
 ## 1. YOLOでトレーニングを行うメリット
 
@@ -112,13 +114,12 @@ from ultralytics import YOLO
 model = YOLO('best.pt')
 
 # 2. カメラの起動
-# show=True がプレビュー画面を表示する設定です
-print("カメラを起動しています... プレビュー画面を確認してください。")
 results = model.predict(source=0, show=True, stream=True, conf=0.1)
+# show=True がプレビュー画面を表示する設定です
 
 # このループがある間だけ、カメラ画面が表示され続けます
 for r in results:
-    # 検出されたネジの情報を取得
+    # 検出されたバーコードの情報を取得
     if len(r.boxes) > 0:
         for box in r.boxes:
             conf = box.conf[0] # 信頼度（どのくらいバーコードっぽいか）
@@ -137,6 +138,4 @@ for r in results:
 
 Ultralytics YOLOを使えば、複雑なディープラーニングのコードを書くことなく、独自のデータセットで高性能なモデルを構築できます。
 
-今回の「トレーニング編」をマスターすれば、バーコード検知に限らず、あらゆる「自分だけの検知AI」への道が開けます。
-
-次回は、トレーニングしたモデルをさらに最適化する**検証・書き出し編**を予定しています。ぜひフォローしてお待ちください！
+今後もYOLOについての記事執筆を予定しています！ぜひフォローしてお待ちください！
