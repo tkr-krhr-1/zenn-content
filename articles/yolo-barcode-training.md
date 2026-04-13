@@ -1,5 +1,5 @@
 ---
-title: "YOLOv8 × Roboflow × Colab：バーコード検知モデルを構築する"
+title: "【YOLO】物体検知モデルを構築してみた"
 emoji: "🎯"
 type: "tech"
 topics: ["yolo", "ultralytics", "python", "物体検出", "機械学習"]
@@ -13,6 +13,8 @@ published: false
 前回の[入門編](https://zenn.dev/tkr_krhr/articles/yolo-object-detection-intro)では、YOLOの概要と学習済みモデルを使った推論方法について解説しました。
 
 今回の記事では、**Google Colab** と **Roboflow** を活用して、**バーコードデータセットでモデルをトレーニングする**具体的な手順を解説します。
+
+![alt text](/images/yolo-barcode-training/image0.png)
 
 ## 1. YOLOでトレーニングを行うメリット
 
@@ -43,7 +45,13 @@ YOLO: 学習済みファイルをそのまま使い、iOS、Android、Webブラ�
 Roboflowにアクセスして、データセットを用意します。※登録が必要です。
 今回は、公開されているバーコードのデータセットを使用します。
 
+Roboflow Universeでバーコードを検索し、データセットを選択します。
+
+今回は1.34k imagesのデータセットを選びました。
+
 ![Roboflow Universeでバーコードを検索](/images/yolo-barcode-training/image1.png)
+
+DatasetからYOLOv8を選択します。
 
 ![データセットの概要とYOLOv8形式の選択](/images/yolo-barcode-training/image2.png)
 
@@ -80,7 +88,8 @@ Google Colabでは、この強力な計算機を**無料**（使用状況によ�
 
 学習を始める前に、あらかじめW&Bへのアカウント登録とAPIキーの取得が必要です。[Weights & Biasesの公式サイト](https://wandb.ai/)にアクセスしてアカウントを作成（またはログイン）し、アカウント設定ページ等からAPIキーをコピーしておきましょう。
 
-APIキーが準備できたら、以下のコードの `"自身のAPIキー"` の部分を書き換えてセルを実行します。これにより、ライブラリのインストールとW&Bへのログインが行われます。
+APIキーが準備できたら、以下のコードの `"自身のAPIキー"` の部分を書き換えてセルを実行します。
+これにより、ライブラリのインストールとW&Bへのログインが行われます。
 
 ```python
 # 1. ライブラリのインストール（-U で最新版に更新しつつインストール）
@@ -118,10 +127,25 @@ results = model.train(
 wandb.finish()
 ```
 
+実行すると以下のように学習が進みます。
+
+![Google Colabのランタイム設定](/images/yolo-barcode-training/image7.png)
+
+出力される各項目は「AIが今どれくらい学習のステップを進めていて、どのくらい賢くなっているか」を表しており、それぞれの意味は以下の通りです。
+
+- **Epoch（エポック）**: 学習の進捗。画像データを1周することを「1エポック」と呼びます。（例：`1/10`なら全10周中の1周目）
+- **GPU_mem**: 学習に使用しているGPUメモリの消費量です。
+- **box_loss**: 検知枠（バウンディングボックス）のズレ誤差です。数字が小さいほど対象物を正確な枠で囲めています。
+- **cls_loss**: クラス推論（種類の識別）の誤差です。数字が小さいほど、別のものと勘違いせずに正しく見分けられています。
+- **dfl_loss**: 枠の境界線の誤差です。数字が小さいほどフチがブレずに鮮明に捉えられています。
+- **Instances**: その回の学習ステップに含まれている対象物の個数です。
+
+**Loss（ロス）系の3つの指標（box_loss, cls_loss, dfl_loss）はすべてAIの「誤差」を表すため、学習が進むにつれて数字がどんどん小さくなっていくのが理想的です。**
+
 学習がスタートすると、実行ログの中にW&Bのダッシュボードへのリンク（例: `View run at https://wandb.ai/...`）が表示されます。
 リンク先にアクセスして「System」タブを開くと、T4 GPUが実際にどれくらい使われているか（GPU使用率やメモリ使用量）をリアルタイムのグラフで確認できます。
 
-
+![Google Colabのランタイム設定](/images/yolo-barcode-training/image6.png)
 
 ### 学習済みモデルの検証
 
@@ -146,15 +170,20 @@ from ultralytics import YOLO
 model = YOLO('best.pt')
 
 # 2. カメラの起動
-results = model.predict(source=0, show=True, stream=True, conf=0.8)
-# show=True がプレビュー画面を表示する設定です
+# model.predictで物体検出を実行する
+results = model.predict(
+    source=0,    # カメラの映像を取得する
+    show=True,   # プレビュー画面を表示する
+    stream=True, # カメラの映像をリアルタイムで処理する
+    conf=0.8     # 信頼度が80%以上のものだけ表示する
+)
 
 # このループがある間だけ、カメラ画面が表示され続けます
 for r in results:
     # 検出されたバーコードの情報を取得
     if len(r.boxes) > 0:
         for box in r.boxes:
-            conf = box.conf[0] # 信頼度（どのくらいバーコードと判断したかの数値）
+            conf = box.conf[0] # 信頼度の数字を取得
             print(f"【認識中】バーコードを発見しました！ 信頼度: {conf:.2f}")
 ```
 
@@ -162,8 +191,10 @@ for r in results:
 
 ![alt text](/images/yolo-barcode-training/image8.png)
 
+精度を上げるにはepochsを上げたり、データセットの量や質を上げたりする必要があります。
+
 ## まとめ
 
 Ultralytics YOLOを使えば、複雑なディープラーニングのコードを書くことなく、独自のデータセットで高性能なモデルを構築できます。
 
-今後もYOLOについての記事執筆を予定しています！ぜひフォローしてお待ちください！
+今後も物体検出についての記事執筆を予定しています！ぜひフォローしてお待ちください！
