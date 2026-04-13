@@ -43,17 +43,17 @@ YOLO: 学習済みファイルをそのまま使い、iOS、Android、Webブラ�
 Roboflowにアクセスして、データセットを用意します。※登録が必要です。
 今回は、公開されているバーコードのデータセットを使用します。
 
-![Roboflow Universeでバーコードを検索](/images/yolo-barcode-training/roboflow-universe-search.png)
+![Roboflow Universeでバーコードを検索](/images/yolo-barcode-training/image1.png)
 
-![データセットの概要とYOLOv8形式の選択](/images/yolo-barcode-training/roboflow-dataset-overview.png)
+![データセットの概要とYOLOv8形式の選択](/images/yolo-barcode-training/image2.png)
 
 Download dataset > Show download codeでContinueを押すと以下の画面が出ます。
 
-![Roboflowのコードスニペット](/images/yolo-barcode-training/roboflow-code-snippet.png)
+![Roboflowのコードスニペット](/images/yolo-barcode-training/image3.png)
 
 コピーをして、Google Colabのセルで実行します。
 
-![Google Colabでのデータセットダウンロード](/images/yolo-barcode-training/image.png)
+![Google Colabでのデータセットダウンロード](/images/yolo-barcode-training/image4.png)
 
 これでデータセットの準備が完了しました。
 
@@ -64,7 +64,7 @@ Download dataset > Show download codeでContinueを押すと以下の画面が�
 
 コードを実行する前に、Google Colabのランタイム設定でGPUを選択します。
 
-![Google Colabのランタイム設定](/images/yolo-barcode-training/google-colab-runtime-settings.png)
+![Google Colabのランタイム設定](/images/yolo-barcode-training/image5.png)
 
 表示された画面で、T4 GPUを選択し保存します。
 
@@ -78,18 +78,21 @@ Google Colabでは、この強力な計算機を**無料**（使用状況によ�
 
 トレーニングの進捗や、**GPUの使用率**などをリアルタイムで可視化するために、機械学習用のダッシュボードツールである「Weights & Biases (W&B)」を活用します。YOLOv8は標準でW&Bとの連携に対応しています。
 
-学習を始める前に、以下のコードを実行してライブラリのインストールとW&Bへのログインを行います。
+学習を始める前に、あらかじめW&Bへのアカウント登録とAPIキーの取得が必要です。[Weights & Biasesの公式サイト](https://wandb.ai/)にアクセスしてアカウントを作成（またはログイン）し、アカウント設定ページ等からAPIキーをコピーしておきましょう。
+
+APIキーが準備できたら、以下のコードの `"自身のAPIキー"` の部分を書き換えてセルを実行します。これにより、ライブラリのインストールとW&Bへのログインが行われます。
 
 ```python
-# 必要なライブラリのインストール
-!pip install ultralytics wandb
+# 1. ライブラリのインストール（-U で最新版に更新しつつインストール）
+!pip install -U wandb
 
+# 2. W&Bへのログイン
 import wandb
-# W&Bにログイン
-wandb.login()
-```
+wandb.login(key="自身のAPIキー")
 
-セルを実行するとログイン手順が表示されます。記載されているリンクからW&Bのアカウントを作成（またはログイン）し、指示に従ってAPIキーをコピーしてColabの入力欄に貼り付け、Enterキーを押してください。
+# 3. YOLOの設定でW&Bを有効化
+!yolo settings wandb=True
+```
 
 ### 学習の開始
 
@@ -97,20 +100,28 @@ wandb.login()
 
 ```python
 from ultralytics import YOLO
+import datetime
+
+wandb.init(project="yolov8-custom-training", name="trial-1")
 
 # 1. ベースとなる「脳みそ（モデル）」を読み込む
-# 最初から賢いyolov8n（Nanoサイズ：一番軽くて速い）を使います
 model = YOLO('yolov8n.pt')
 
-# 2. 学習スタート！
-results = model.train(data=f'{dataset.location}/data.yaml', epochs=1, imgsz=640)
-# data: Roboflowで取得した data.yaml のパスを指定
-# epochs: 学習する回数。まずは1回で様子を見ます
-# imgsz: 学習時の画像サイズ。640ピクセルが標準
+# 2. 学習スタート
+# 引数 `project` と `name` を追加することで、保存先を指定できます。
+results = model.train(
+    data=f'{dataset.location}/data.yaml', # Roboflowで取得した data.yaml のパスを指定
+    epochs=10,                            # 学習する回数（データセット全体を何周するか）
+    imgsz=640                             # 学習時の画像サイズ（640ピクセルが標準）
+)
+
+wandb.finish()
 ```
 
 学習がスタートすると、実行ログの中にW&Bのダッシュボードへのリンク（例: `View run at https://wandb.ai/...`）が表示されます。
 リンク先にアクセスして「System」タブを開くと、T4 GPUが実際にどれくらい使われているか（GPU使用率やメモリ使用量）をリアルタイムのグラフで確認できます。
+
+
 
 ### 学習済みモデルの検証
 
@@ -135,7 +146,7 @@ from ultralytics import YOLO
 model = YOLO('best.pt')
 
 # 2. カメラの起動
-results = model.predict(source=0, show=True, stream=True, conf=0.1)
+results = model.predict(source=0, show=True, stream=True, conf=0.8)
 # show=True がプレビュー画面を表示する設定です
 
 # このループがある間だけ、カメラ画面が表示され続けます
@@ -143,17 +154,13 @@ for r in results:
     # 検出されたバーコードの情報を取得
     if len(r.boxes) > 0:
         for box in r.boxes:
-            conf = box.conf[0] # 信頼度（どのくらいバーコードっぽいか）
+            conf = box.conf[0] # 信頼度（どのくらいバーコードと判断したかの数値）
             print(f"【認識中】バーコードを発見しました！ 信頼度: {conf:.2f}")
 ```
 
 実行するとカメラウィンドウが開き、バーコードを認識します。
-※信頼度を0に設定しているため、テーブルもバーコードと検知されています。
 
-![alt text](/images/yolo-barcode-training/yolo-detection-result.png)
-
-学習回数が一回なので、精度は甘いですが、回数を重ねれば、より高精度なモデルを構築できます。
-
+![alt text](/images/yolo-barcode-training/image8.png)
 
 ## まとめ
 
