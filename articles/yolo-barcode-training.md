@@ -60,11 +60,9 @@ Download dataset > Show download codeでContinueを押すと以下の画面が�
 
 ![Roboflowのコードスニペット](/images/yolo-barcode-training/image3.png)
 
-Google Colabにセルを追加してRoboflowのコードを実行します。
+Google Colabにセルを追加し、Roboflowのコードを実行します。
 
-![Google Colabでのデータセットダウンロード](/images/yolo-barcode-training/image4.png)
-
-これでデータセットの準備が完了しました。
+これでデータセットの準備が完了です。
 
 ## 3. 実践：トレーニングの実行
 
