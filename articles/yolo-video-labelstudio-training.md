@@ -1,5 +1,5 @@
 ---
-title: "動画データからYOLOモデルをゼロから作る——Label Studioでアノテーションして独自物体検出器を構築する"
+title: "動画データからYOLOモデルをゼロから作る——Label Studioでアノテーションして独自モデルを構築する"
 emoji: "🎬"
 type: "tech"
 topics: ["yolo", "ultralytics", "python", "labelstudio", "物体検出"]
@@ -16,7 +16,9 @@ published: false
 
 完成したモデルに動画を入力すると、対象の物体をリアルタイムで検出してバウンディングボックスを描画できます。
 
-![完成イメージ：動画への推論結果](/images/yolo-video-labelstudio-training/hero.png)
+<!-- ![完成イメージ：動画への推論結果](/images/yolo-video-labelstudio-training/hero.png) -->
+<完成イメージ：動画への推論結果>
+
 
 動画 → フレーム抽出 → アノテーション → 学習 → 検証という一方通行の流れを体験することで、「公開データセットがない対象」でも自前モデルが作れるようになります。
 
