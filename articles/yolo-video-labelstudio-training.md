@@ -302,9 +302,9 @@ Label StudioのUIで以下の手順を実行します。
 ### アノテーション作業の手順
 
 1. タスク一覧から画像を選択してアノテーション画面を開く
-2. 左のラベルパネルからクラスを選択（キーボードショートカット `1`、`2`…で切り替え可能）
+2. 左下のラベルパネルからクラスを選択
 3. 画像上をドラッグしてバウンディングボックスを描画
-4. 右上の「Submit」でラベルを確定
+4. 右下に「Submit」が出てくるので押下でラベルを確定
 
 ![アノテーション作業画面（ねじにバウンディングボックスを描画）](/images/yolo-video-labelstudio-training/image4.png)
 
@@ -506,14 +506,6 @@ with zipfile.ZipFile(ZIP_PATH, "r") as z:
 print("展開完了:", os.listdir(WORK_DIR))
 ```
 
-ローカルから直接アップロードする場合は、以下でColabの一時ストレージにアップロードできます（セッション終了で消えるため注意）。
-
-```python
-# Colabセル（Driveを使わない場合）
-from google.colab import files
-uploaded = files.upload()   # ダイアログが開くのでdataset.zipを選択
-```
-
 ### モデルサイズの選び方
 
 Ultralytics YOLOは用途に応じて複数のサイズが用意されています。
@@ -571,8 +563,6 @@ Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
 
 T4 GPUでは1エポックあたり数十秒〜数分で完了します。100エポックの学習は通常30〜60分程度です。
 
-### 学習曲線（loss・mAP）の確認
-
 学習が終わると `MyDrive/yolo_project/exp1/` に以下のファイルが生成されます。
 
 ```
@@ -584,12 +574,6 @@ MyDrive/yolo_project/exp1/
 └── results.png      ← 学習曲線の画像
 ```
 
-`results.png` を開き、以下を確認します。
-
-- **box_loss / cls_loss / dfl_loss** が単調に下がっているか（発散していないか）
-- **val/mAP50** がエポックを重ねて上昇しているか
-- trainとvalの損失が極端に乖離していないか（過学習のサイン）
-
 ### 学習済み best.pt の保存場所の確認
 
 ```python
@@ -600,7 +584,44 @@ print(os.listdir(weights_dir))
 # → ['best.pt', 'last.pt']
 ```
 
-推論・評価には必ず `best.pt`（val mAP最大時点の重み）を使います。Google Driveに保存されているため、Colabセッションを再起動しても参照できます。
+評価には必ず `best.pt`（val mAP最大時点の重み）を使います。Google Driveに保存されているため、Colabセッションを再起動しても参照できます。
+
+---
+
+## 7. 検証データでモデルの評価（Google Colab・GPU）
+
+### 定量評価（mAPの計算）
+
+`model.val()` を使うと、検証データ全体に対する精度指標を一括で計算できます。
+
+```python
+# Colabセル
+metrics = model.val(
+    data=f"{WORK_DIR}/dataset/data.yaml",
+    split="val",       # 評価対象を val セットに指定
+    device="cuda",
+    project=DRIVE_PATH,
+    name="eval_val",
+)
+
+print(f"mAP50     : {metrics.box.map50:.3f}")
+print(f"mAP50-95  : {metrics.box.map:.3f}")
+print(f"Precision : {metrics.box.mp:.3f}")
+print(f"Recall    : {metrics.box.mr:.3f}")
+```
+
+今回の出力結果：
+
+![model.val()の出力結果](/images/yolo-video-labelstudio-training/image5.png)
+
+### 評価指標の読み方
+
+- **mAP50**：ボックスが「大体合っていれば正解」とした精度。**0.7以上で実用レベル**
+- **mAP50-95**：ボックスの位置精度まで厳しく評価。0.5以上が目標
+- **Precision**：誤検知の少なさ（「検出した」中で本当に正しかった割合）
+- **Recall**：見逃しの少なさ（「実際に存在する」中で検出できた割合）
+
+まず **mAP50** で実用性を判断し、問題なければ **mAP50-95** で位置精度を確認します。
 
 ---
 
@@ -609,6 +630,6 @@ print(os.listdir(weights_dir))
 本記事の手順で作ったモデルは、**学習データに近い条件（照明・角度・距離）では高い精度**が出る一方、以下のような状況で精度が落ちやすいです。
 
 - 動画に映っていなかった新しい背景・照明条件
-- 高速移動によるモーションブラー
+- 高速移動によるぼけ
 
-このような場面での精度向上については、次回の記事で取り上げます。
+このような場面での精度向上については、次回以降の記事で取り上げます。
