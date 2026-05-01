@@ -18,6 +18,8 @@ published: false
 
 動画 → フレーム抽出 → アノテーション → 学習 → 検証という一方通行の流れを体験することで、「公開データセットがない対象」でも自前モデルが作れるようになります。
 
+![](/images/yolo-video-labelstudio-training/image0.png =750x)
+
 ### 対象読者・前提知識
 
 - Pythonの基礎文法が読める方
