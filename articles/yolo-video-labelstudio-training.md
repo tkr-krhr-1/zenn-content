@@ -57,7 +57,7 @@ YOLOの基礎から学びたい方は、まず[入門編](https://zenn.dev/tkr_k
 YOLO形式ラベルファイル → 後続記事へ続く
 ```
 
-## 2. 環境構築（ローカル）
+## 2. 環境構築
 
 #### 仮想環境の作成
 
@@ -82,7 +82,7 @@ label-studio start
 
 ブラウザで `http://localhost:8080` にアクセスし、アカウントを作成したらセットアップ完了です。
 
-## 3. 動画から画像データを作成する（ローカル）
+## 3. 動画から画像データを作成する
 
 ### フレーム抽出の考え方
 
@@ -149,7 +149,7 @@ python scripts/extract_frames.py
 
 画像を数枚開いて、ブレやピンぼけが多くないか確認します。暗すぎる・明るすぎるフレームは学習ノイズになるため、目視で除外しておきます。
 
-## 4. Label Studioでアノテーション（ローカル）
+## 4. Label Studioでアノテーション
 
 ### プロジェクト作成とラベルの設定
 
@@ -255,6 +255,6 @@ annotations/
 
 `class_id x_center y_center width height`（すべて0〜1の相対値）
 
----
+アノテーションが完成したら、次はデータセットの準備と学習です。
 
-アノテーションが完成したら、次はデータセットの準備と学習です。[後続記事（学習・評価編）](https://zenn.dev/tkr_krhr/articles/yolo-video-labelstudio-training-2)に続きます。
+[後続記事（学習・評価編）](https://zenn.dev/tkr_krhr/articles/yolo-video-labelstudio-training-2)に続きます。
