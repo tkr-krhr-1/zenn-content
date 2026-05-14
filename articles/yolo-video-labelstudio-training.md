@@ -18,7 +18,7 @@ published: false
 
 ![](/images/yolo-video-labelstudio-training/image0.png =750x)
 
-データセット準備・学習・評価は[後続記事（学習・評価編）](https://zenn.dev/tkr_krhr/articles/yolo-video-labelstudio-training-2)で解説します。
+データセット学習・評価は後続記事（🧠動画データからYOLOモデルをゼロから作る——データセット準備・学習・評価編）で解説します。
 
 ### 対象読者・前提知識
 
@@ -146,8 +146,6 @@ if __name__ == "__main__":
 python scripts/extract_frames.py
 # → 保存枚数: 180 枚 → frames/
 ```
-
-画像を数枚開いて、ブレやピンぼけが多くないか確認します。暗すぎる・明るすぎるフレームは学習ノイズになるため、目視で除外しておきます。
 
 ## 4. Label Studioでアノテーション
 
