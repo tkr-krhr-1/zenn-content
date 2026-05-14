@@ -255,4 +255,4 @@ annotations/
 
 アノテーションが完成したら、次はデータセットの準備と学習です。
 
-[後続記事（学習・評価編）](https://zenn.dev/tkr_krhr/articles/yolo-video-labelstudio-training-2)に続きます。
+後続記事（🧠動画データからYOLOモデルをゼロから作る——データセット準備・学習・評価編）に続きます。
