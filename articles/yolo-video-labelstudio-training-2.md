@@ -8,9 +8,9 @@ published: false
 
 ※本記事は、読者の方にとって分かりやすい構成となるようAIのサポートを活用し、私自身の経験と裏取りを元に書き下ろしたものです。
 
-## 1. はじめに
+## はじめに
 
-[前回の記事（フレーム抽出・アノテーション編）](https://zenn.dev/tkr_krhr/articles/yolo-video-labelstudio-training)では、動画からフレームを抽出し、Label StudioでYOLO形式のアノテーションを行いました。
+[前回の記事（フレーム抽出・アノテーション編）](https://zenn.dev/emp_tech_blog/articles/yolo-video-labelstudio-training)では、動画からフレームを抽出し、Label StudioでYOLO形式のアノテーションを行いました。
 
 本記事ではその続きとして、アノテーション済みデータをYOLO学習用データセットに整形し、Google ColabのGPUで学習・評価するまでの工程を解説します。
 
@@ -26,29 +26,28 @@ published: false
 
 | 章 | 作業内容 | 実行環境 |
 |---|---|---|
-| 2章 | Google Colab環境構築 | **Google Colab** |
-| 3章 | データセット準備・アップロード | **ローカル** |
-| 4章 | YOLOで学習 | **Google Colab（GPU）** |
-| 5章 | モデルの評価 | **Google Colab（GPU）** |
+| 1章 | Google Colab環境構築 | **Google Colab** |
+| 2章 | データセット準備・アップロード | **ローカル** |
+| 3章 | YOLOで学習 | **Google Colab（GPU）** |
+| 4章 | モデルの評価 | **Google Colab（GPU）** |
 
 ### 記事の流れ
 
 ```
-【ローカルPC】（前回記事の成果物）
-YOLO形式ラベルファイル
-  ↓ 3章：train/val/test分割 + data.yaml
+【ローカルPC】
+  ↓ 2章：train/val/test分割 + data.yaml
 YOLOデータセット（ZIP）→ Google Driveにアップロード
 
 【Google Colab（GPU）】
-  ↓ 4章：学習（NVIDIA T4 / A100）
+  ↓ 3章：学習（NVIDIA T4 / A100）
 best.pt（学習済みモデル）→ Google Driveに保存
-  ↓ 5章：評価
+  ↓ 4章：評価
 評価指標（mAP / Precision / Recall）
 ```
 
-## 2. Google Colab環境構築
+## 1. Google Colab環境構築
 
-4章の学習はGoogle Colabで実行します。新しいノートブックを開き、以下の手順でセットアップします。
+3章の学習はGoogle Colabで実行します。新しいノートブックを開き、以下の手順でセットアップします。
 
 #### GPUランタイムの有効化
 
@@ -82,7 +81,7 @@ drive.mount("/content/drive")
 
 マウント後のパス例：`/content/drive/MyDrive/yolo_project/`
 
-## 3. データセットの準備（ローカル）
+## 2. データセットの準備（ローカル）
 
 ### YOLOが要求するディレクトリ構成
 
@@ -103,7 +102,8 @@ dataset/
 
 ### train / val / testの分割方針と比率
 
-一般的な分割比率は **train:val:test = 7:2:1** ですが、データ数が少ない場合（200枚以下）は **8:1:1** にして学習データを確保するのが得策です。
+**train:val:test = 7:2:1** で分割します。
+val と test にそれぞれ一定枚数を確保することで、学習中の精度監視（val）と最終評価（test）が統計的に安定します。
 
 - **train（訓練）：** モデルの重みを更新するために使う
 - **val（検証）：** 学習中にmAPなどの指標をエポックごとに確認する
@@ -161,6 +161,9 @@ python scripts/split_dataset.py
 
 ### data.yaml の作成
 
+`data.yaml` は、YOLOに「どこにデータがあるか」「何クラスを検出するか」を伝える設定ファイルです。
+学習・評価コマンドはすべてこのファイルを参照して動くため、パスやクラス定義が間違っていると学習自体が失敗します。
+
 ```yaml
 # dataset/data.yaml
 path: ./dataset          # データセットのルートパス（絶対パスでも可）
@@ -175,28 +178,6 @@ names:
 
 `nc` と `names` は必ず `classes.txt` の内容と一致させてください。
 
-### データ数・クラスバランスの確認
-
-学習前に各クラスの件数を把握しておくと、学習結果の解釈が楽になります。
-
-```python
-from pathlib import Path
-from collections import Counter
-
-labels_dir = Path("dataset/labels/train")
-counter = Counter()
-for txt in labels_dir.glob("*.txt"):
-    for line in txt.read_text().strip().split("\n"):
-        if line:
-            class_id = int(line.split()[0])
-            counter[class_id] += 1
-
-print(counter)
-# → Counter({0: 312, 1: 87})
-```
-
-クラス間の比率が 10:1 を超えるような極端なアンバランスがある場合は、少数クラスの画像を追加収集するか、データ拡張で対処します。
-
 ### Google DriveへのデータセットアップロードとColabへの転送
 
 データセットが完成したら、Google Colabに渡すためにZIP化してGoogle Driveにアップロードします。
@@ -209,11 +190,11 @@ zip -r dataset.zip dataset/
 
 作成した `dataset.zip` をGoogle DriveにGUIでアップロードするか、`google-drive-ocamlfuse` などでCLIからアップロードします。Colabで直接アップロードする場合は次章の冒頭で説明します。
 
-## 4. YOLOで学習する（Google Colab・GPU）
+## 3. YOLOで学習する（Google Colab・GPU）
 
 ### データセットの準備（Colab側）
 
-2章でマウントしたGoogle Driveから `dataset.zip` を展開します。
+1章でマウントしたGoogle Driveから `dataset.zip` を展開します。
 
 ```python
 # Colabセル
@@ -230,19 +211,6 @@ with zipfile.ZipFile(ZIP_PATH, "r") as z:
 print("展開完了:", os.listdir(WORK_DIR))
 ```
 
-### モデルサイズの選び方
-
-Ultralytics YOLOは用途に応じて複数のサイズが用意されています。
-
-| モデル | パラメータ数 | 速度 | 精度 | 用途 |
-|---|---|---|---|---|
-| YOLOv8n（nano） | 3.2M | 最速 | 低め | エッジデバイス、試作 |
-| YOLOv8s（small） | 11.2M | 速い | 中程度 | 一般的な用途 |
-| YOLOv8m（medium） | 25.9M | 普通 | 高め | 精度重視 |
-| YOLOv8l（large） | 43.7M | 遅い | 高い | 高精度が必要な場合 |
-
-**まずは `yolov8s` で試し、精度が足りなければ `yolov8m` にアップグレード**するのがセオリーです。データ数が少ない段階でlargeモデルを選ぶと過学習しやすく、学習時間も無駄になります。
-
 ### 学習コードと主要パラメータの説明
 
 ```python
@@ -253,7 +221,7 @@ from ultralytics import YOLO
 WORK_DIR   = "/content/yolo_project"
 DRIVE_PATH = "/content/drive/MyDrive/yolo_project"
 
-model = YOLO("yolov8s.pt")  # 事前学習済みの重みをダウンロードして使用
+model = YOLO("yolov8s.pt")  # データが少ない初回はnano/smallから始める
 
 results = model.train(
     data=f"{WORK_DIR}/dataset/data.yaml",
@@ -298,19 +266,11 @@ MyDrive/yolo_project/exp1/
 └── results.png      ← 学習曲線の画像
 ```
 
-### 学習済み best.pt の保存場所の確認
+評価には必ず `best.pt`（val mAP最大時点の重み）を使います。
 
-```python
-# Colabセル
-import os
-weights_dir = f"{DRIVE_PATH}/exp1/weights"
-print(os.listdir(weights_dir))
-# → ['best.pt', 'last.pt']
-```
+Google Driveに保存されているため、Colabセッションを再起動しても参照できます。
 
-評価には必ず `best.pt`（val mAP最大時点の重み）を使います。Google Driveに保存されているため、Colabセッションを再起動しても参照できます。
-
-## 5. モデルの検証・評価（Google Colab・GPU）
+## 4. モデルの検証・評価（Google Colab・GPU）
 
 ### 定量評価（mAPの計算）
 
@@ -345,7 +305,7 @@ print(f"Recall    : {metrics.box.mr:.3f}")
 
 まず **mAP50** で実用性を判断し、問題なければ **mAP50-95** で位置精度を確認します。
 
-## 6. 現状の精度と課題
+## 5. 現状の精度と課題
 
 本記事の手順で作ったモデルは、**学習データに近い条件（照明・角度・距離）では高い精度**が出る一方、以下のような状況で精度が落ちやすいです。
 
