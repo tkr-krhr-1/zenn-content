@@ -14,6 +14,8 @@ published: false
 
 本記事ではその続きとして、アノテーション済みデータをYOLO学習用データセットに整形し、Google ColabのGPUで学習・評価するまでの工程を解説します。
 
+![挿絵](/images/yolo-video-labelstudio-training-2/image0.png)
+
 ### 使用技術スタック
 
 | 役割 | ツール / ライブラリ |
@@ -294,7 +296,7 @@ print(f"Recall    : {metrics.box.mr:.3f}")
 
 今回の出力結果：
 
-![model.val()の出力結果](/images/yolo-video-labelstudio-training/image5.png)
+![model.val()の出力結果](/images/yolo-video-labelstudio-training-2/image1.png)
 
 ### 評価指標の読み方
 
