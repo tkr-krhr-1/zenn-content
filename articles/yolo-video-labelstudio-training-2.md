@@ -241,22 +241,26 @@ model = YOLO("yolov8s.pt")  # データが少ない初回はnano/smallから始�
 
 results = model.train(
     data=f"{WORK_DIR}/dataset/data.yaml",
-    epochs=100,             # 学習エポック数。100〜200が一般的な出発点
-    imgsz=640,              # 入力画像サイズ。640が標準（小さくすると速いが精度落ち）
-    batch=16,               # T4の場合16が目安。A100なら32〜64まで増やせる
-    patience=20,            # val mAPが改善しないエポックが続いたら早期終了
-    device="cuda",          # Colab GPUを使用
-    project=DRIVE_PATH,     # 結果をGoogle Driveに直接保存（セッション切れても消えない）
+    epochs=100,
+    imgsz=640,
+    batch=16,
+    patience=20,
+    device="cuda",
+    project=DRIVE_PATH,
     name="exp1",
 )
 ```
 
-**主要パラメータの意味：**
+**パラメータの意味：**
 
-- `epochs`：データセット全体を何回繰り返して学習するか。多すぎると過学習のリスク
-- `patience`：早期終了（EarlyStopping）の猶予エポック数。過学習を自動で防ぐ
-- `imgsz`：YOLOは入力前にこのサイズにリサイズする。元画像が大きい場合でも変換される
-- `project`：Google Driveを指定することで、Colabセッションが切れても結果が保持される
+- `data`：学習・検証データのパスやクラス定義を記述した `data.yaml` のパス。すべての工程はこのファイルを起点にする
+- `epochs`：データセット全体を何回繰り返して学習するか。多すぎると過学習のリスクがある。100〜200が一般的な出発点
+- `imgsz`：入力画像の短辺をこのサイズにリサイズして学習する。640が標準。小さくすると速度は上がるが小さな物体の検出精度が落ちる
+- `batch`：1回の重み更新に使う画像枚数。T4では16が目安。大きくすると学習が安定するがGPUメモリを消費する
+- `patience`：val mAP が改善しないエポックが続いたら学習を自動で打ち切る猶予エポック数（EarlyStopping）。過学習を防ぐ
+- `device`：学習に使うデバイス。`"cuda"` でGPU、`"cpu"` でCPU。Colabでは `"cuda"` を指定する
+- `project`：結果の保存先ディレクトリ。Google Driveを指定することでColabセッションが切れても結果が消えない
+- `name`：`project` 以下に作られるサブディレクトリ名。実験ごとに変えると結果が上書きされない
 
 ### 学習の実行
 
