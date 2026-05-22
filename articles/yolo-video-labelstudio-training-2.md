@@ -169,6 +169,8 @@ if __name__ == "__main__":
     split_dataset("annotations/images", "annotations/labels", "dataset/")
 ```
 
+
+
 ```bash
 python scripts/split_dataset.py
 # → train: 126 枚 / val: 36 枚 / test: 18 枚
@@ -192,7 +194,7 @@ names:
 ```
 
 `nc` と `names` は必ず `classes.txt` の内容と一致させてください。
-`classes.txt` は[前回の記事](https://zenn.dev/emp_tech_blog/articles/yolo-video-labelstudio-training)でLabel Studioからエクスポートした際に生成されたファイルで、各行がクラス名に対応しています（例：1行目が `screw` なら index=0）。`names` リストの並び順がこのファイルと異なると、学習後の推論でクラスラベルがずれます。
+`classes.txt` は[前回の記事](https://zenn.dev/emp_tech_blog/articles/yolo-video-labelstudio-training)でLabel Studioからエクスポートした際に生成されたファイルで、各行がクラス名に対応しています。
 
 ### Google DriveへのデータセットアップロードとColabへの転送
 
