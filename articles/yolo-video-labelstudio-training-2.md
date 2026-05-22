@@ -104,12 +104,25 @@ dataset/
 
 ### train / val / testの分割方針と比率
 
-**train:val:test = 7:2:1** で分割します。
-val と test にそれぞれ一定枚数を確保することで、学習中の精度監視（val）と最終評価（test）が統計的に安定します。
+アノテーションしたファイルを**train:val:test = 7:2:1** で分割します。
+この比率は広く使われている**慣習**であり、理論的に最適と証明された値ではありません。
+データ量・クラス数・クラスの偏りによって適切な比率は変わるため、少数クラスが val や test に十分含まれるかどうかを確認してください。
 
 - **train（訓練）：** モデルの重みを更新するために使う
 - **val（検証）：** 学習中にmAPなどの指標をエポックごとに確認する
 - **test（テスト）：** 学習終了後に一度だけ使う最終評価用（valと分けることで過楽観な評価を防ぐ）
+
+### 前回記事からの引き継ぎファイル
+
+分割スクリプトは、[前回の記事](https://zenn.dev/emp_tech_blog/articles/yolo-video-labelstudio-training)でLabel StudioからエクスポートしたデータをそのままYOLO形式で入力として受け取ります。エクスポート後のディレクトリ構成は以下を想定しています。
+
+```
+annotations/
+├── images/    ← Label Studioからエクスポートした画像ファイル群
+└── labels/    ← 各画像に対応するYOLO形式のラベルファイル（.txt）
+```
+
+`labels/` 内の各 `.txt` は、対応する画像と同じファイル名で `クラスindex cx cy w h` の形式で記録されています（例：`frame_0001.txt`）。
 
 ### 分割スクリプト
 
@@ -179,6 +192,7 @@ names:
 ```
 
 `nc` と `names` は必ず `classes.txt` の内容と一致させてください。
+`classes.txt` は[前回の記事](https://zenn.dev/emp_tech_blog/articles/yolo-video-labelstudio-training)でLabel Studioからエクスポートした際に生成されたファイルで、各行がクラス名に対応しています（例：1行目が `screw` なら index=0）。`names` リストの並び順がこのファイルと異なると、学習後の推論でクラスラベルがずれます。
 
 ### Google DriveへのデータセットアップロードとColabへの転送
 
@@ -227,12 +241,12 @@ model = YOLO("yolov8s.pt")  # データが少ない初回はnano/smallから始�
 
 results = model.train(
     data=f"{WORK_DIR}/dataset/data.yaml",
-    epochs=100,       # 学習エポック数。100〜200が一般的な出発点
-    imgsz=640,        # 入力画像サイズ。640が標準（小さくすると速いが精度落ち）
-    batch=16,         # T4の場合16が目安。A100なら32〜64まで増やせる
-    patience=20,      # val mAPが改善しないエポックが続いたら早期終了
-    device="cuda",    # Colab GPUを使用
-    project=DRIVE_PATH,   # 結果をGoogle Driveに直接保存（セッション切れても消えない）
+    epochs=100,             # 学習エポック数。100〜200が一般的な出発点
+    imgsz=640,              # 入力画像サイズ。640が標準（小さくすると速いが精度落ち）
+    batch=16,               # T4の場合16が目安。A100なら32〜64まで増やせる
+    patience=20,            # val mAPが改善しないエポックが続いたら早期終了
+    device="cuda",          # Colab GPUを使用
+    project=DRIVE_PATH,     # 結果をGoogle Driveに直接保存（セッション切れても消えない）
     name="exp1",
 )
 ```
