@@ -1,12 +1,16 @@
 ---
-title: "Claude Codeの7つの拡張機能を整理する"
+title: "Claude Codeの7つの拡張機能"
 emoji: "🛠️"
 type: "tech"
 topics: ["claudecode", "claude", "ai", "mcp"]
 published: false
 ---
 
+※本記事は、読者の方にとって分かりやすい構成となるようAIのサポートを活用し、私自身の経験と裏取りを元に書き下ろしたものです。
+
 ## はじめに
+
+![Claude Codeの7つの拡張機能](/images/claude-code-7-features-restaurant-analogy/image.png =500x)
 
 この記事では、Claude Code の7つの拡張機能である **CLAUDE.md・.claude/rules/・Skills・Sub-agents・MCP・カスタムコマンド・Hooks** について、それぞれの役割と使い分けを解説します。
 
@@ -17,6 +21,8 @@ Claude Code を触っていると、こんな状態になりませんか。
 機能が7つもあると、最初は全部似たものに見えてしまいます。
 
 今回の記事では、これらは7つの機能を解説していきます。
+
+[]image.png
 
 ## この記事の対象読者
 
