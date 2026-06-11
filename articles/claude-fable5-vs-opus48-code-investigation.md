@@ -1,5 +1,5 @@
 ---
-title: "Claude Fable 5 vs Opus 4.8 をClaude Codeで実測した——改修計画タスクの比較"
+title: "Claude Fable 5 をClaude Codeで実測——改修計画タスクの比較"
 emoji: "🔍"
 type: "tech"
 topics: ["claudecode", "claude", "anthropic", "ai", "llm"]
